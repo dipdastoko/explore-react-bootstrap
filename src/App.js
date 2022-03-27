@@ -1,46 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Card from './components/Card/Card';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Col, Row, Spinner } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import News from './components/News/News';
 
 function App() {
-  const items = [
-    {
-      name: 'first item',
-      description: 'slkf',
-      img: 'https://thumbs.dreamstime.com/b/concrete-mixer-classic-big-rig-semi-truck-evening-road-white-red-wings-straight-abutting-horizon-their-49976228.jpg'
-    },
-    {
-      name: 'first item',
-      description: 'slkf',
-      img: 'https://thumbs.dreamstime.com/b/concrete-mixer-classic-big-rig-semi-truck-evening-road-white-red-wings-straight-abutting-horizon-their-49976228.jpg'
-    },
-    {
-      name: 'first item',
-      description: 'slkf',
-      img: 'https://thumbs.dreamstime.com/b/concrete-mixer-classic-big-rig-semi-truck-evening-road-white-red-wings-straight-abutting-horizon-their-49976228.jpg'
-    },
-    {
-      name: 'first item',
-      description: 'slkf',
-      img: 'https://thumbs.dreamstime.com/b/concrete-mixer-classic-big-rig-semi-truck-evening-road-white-red-wings-straight-abutting-horizon-their-49976228.jpg'
-    },
-  ]
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    fetch('https://newsapi.org/v2/everything?q=tesla&from=2022-02-27&sortBy=publishedAt&apiKey=f90846d9f2d34622870daf3acd2ad320')
+      .then(res => res.json())
+      .then(data => setNews(data.articles))
+  }, [])
   return (
     <div className='App'>
-      <Button variant='warning'>Hello Me</Button>
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <Row xs={1} md={2} className="g-4">
+        {
+          news.map(nw => <News news={nw}></News>)
+        }
+      </Row>
     </div >
   );
 }
 
 export default App;
-// <div className="row row-cols-1 row-cols-md-4 g-4">
-    //   {
-    //     items.map(item => <Card
-    //       item={item}
-    //     ></Card>)
-    //   }
-    // </div>
